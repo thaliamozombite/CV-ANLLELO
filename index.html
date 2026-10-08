@@ -36,7 +36,7 @@
                     </p>
                     <div class="hero-actions">
                         <a href="#experience" class="btn-primary">Ver Experiencia</a>
-                        <a href="CV_Anllelo.pdf" download class="btn-secondary"><i class="fas fa-download"></i> Descargar CV</a>
+                        <button onclick="downloadPDF(event)" class="btn-secondary" style="font-size: 1rem; cursor: pointer;"><i class="fas fa-download"></i> Descargar CV</button>
                         <a href="#contact" class="btn-secondary">Hablemos</a>
                     </div>
                 </div>
@@ -234,6 +234,27 @@
             el.classList.add('hidden');
             observer.observe(el);
         });
+
+        function downloadPDF(e) {
+            e.preventDefault();
+            const element = document.querySelector('main');
+            const opt = {
+                margin:       [0.5, 0, 0.5, 0],
+                filename:     'CV_Anllelo.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            
+            // Ocultar botones temporalmente durante la captura
+            const btns = document.querySelector('.hero-actions');
+            btns.style.display = 'none';
+            
+            html2pdf().set(opt).from(element).save().then(() => {
+                btns.style.display = 'flex';
+            });
+        }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </body>
 </html>
