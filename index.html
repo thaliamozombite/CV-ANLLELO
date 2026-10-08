@@ -239,19 +239,34 @@
             e.preventDefault();
             const element = document.querySelector('main');
             const opt = {
-                margin:       [0.5, 0, 0.5, 0],
+                margin:       [0.5, 0.5, 0.5, 0.5],
                 filename:     'CV_Anllelo.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2, useCORS: true },
-                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
+                pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
             };
             
-            // Ocultar botones temporalmente durante la captura
+            // Ocultar elementos temporalmente durante la captura
             const btns = document.querySelector('.hero-actions');
+            const contactSection = document.querySelector('#contact');
+            
             btns.style.display = 'none';
+            contactSection.style.display = 'none';
+            
+            // Agregar reglas temporales para evitar cortes a la mitad de los elementos
+            const style = document.createElement('style');
+            style.innerHTML = `
+                .skill-card, .timeline-item, .about-grid { page-break-inside: avoid !important; break-inside: avoid !important; }
+                .section-header { page-break-after: avoid !important; break-after: avoid !important; }
+            `;
+            document.head.appendChild(style);
             
             html2pdf().set(opt).from(element).save().then(() => {
+                // Restaurar visibilidad
                 btns.style.display = 'flex';
+                contactSection.style.display = 'block';
+                document.head.removeChild(style);
             });
         }
     </script>
