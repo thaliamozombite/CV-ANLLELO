@@ -76,7 +76,10 @@ html {
 
 /* Buttons */
 .btn-primary, .btn-secondary {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
     padding: 1rem 2rem;
     border-radius: 8px;
     font-weight: 600;
@@ -85,6 +88,7 @@ html {
     cursor: pointer;
     border: none;
     font-size: 1rem;
+    white-space: nowrap;
 }
 
 .btn-primary {
@@ -223,6 +227,7 @@ html {
 
 .hero-actions {
     display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
 }
 
